@@ -70,6 +70,7 @@ TEST_CASE("XWinsDiaLeft"){
     REQUIRE(EvaluateBoard("XO..XO.OX") == Evaluation::Xwins);
 }
 
+//EdgeCase
 TEST_CASE("lastEntryAtCorner") {
     REQUIRE(EvaluateBoard("XOOXOOXXX") == Evaluation::Xwins);
 }
@@ -86,6 +87,7 @@ TEST_CASE("OWinsCaseInsensitive"){
     REQUIRE(EvaluateBoard(".xOXo.O..") == Evaluation::Owins);
 }
 
+//EdgeCase
 TEST_CASE("lastEntryAtMiddle"){
     REQUIRE(EvaluateBoard("OXOXOXOXO") == Evaluation::Owins);
 }
