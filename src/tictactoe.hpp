@@ -20,10 +20,13 @@ private:
         OCount;
 
 public:
-    TicTacToe();
-    ~TicTacToe();
+    TicTacToe(): winCount(0), XCount(0), OCount(0) {};
+    ~TicTacToe() {};
     Evaluation EvaluateBoard(const string &board_state);
-
+    string& trim(const string &str);
+    void count(const string &str);
+    int getXCount();
+    int getOCount();
 };
 
 
