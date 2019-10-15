@@ -16,13 +16,12 @@ class TicTacToe {
 private:
     char winner;
     const int BOARD_CAPACITY = 9;
-    const int ROW = 3;
-    const int COL = 3;
+    const int SIZE = 3;
     const int DIAGONAL = 2;
     const int FORWARD = 0;
     const int BACKWARD = 1;
     const int FIRST = 0;
-    const int LAST = ROW - 1;
+    const int LAST = SIZE - 1;
     int winCount,
         XCount,
         OCount;
@@ -40,10 +39,12 @@ public:
     char* checkCol(char**);
     char* checkDiagonal(char**);
     char** setUpBoard(const string&);
+    bool isXorO(char);
     bool isFull(int, int);
+    bool isEmptyBoard(char**);
     bool hasBalanceTurn(int, int);
-    bool hasValidTwoLine(char**);
-    bool hadWinner(char**);
+    bool hasValidTwoLine();
+    bool hadWinner();
     int getXCount();
     int getOCount();
 };

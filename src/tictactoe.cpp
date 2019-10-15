@@ -19,12 +19,12 @@ Evaluation TicTacToe::EvaluateBoard(const string &board_state) {
         colState = checkCol(board);
         diagonalState = checkDiagonal(board);
 
-        if (hadWinner(board) || !hasBalanceTurn(XCount, OCount)) {
+        if (hadWinner() || !hasBalanceTurn(XCount, OCount)) {
             return Evaluation::UnreachableState;
-        }else if (isEmptyBoard(board) || isTie(board)) {
+        }else if (isEmptyBoard(board) || winCount == 0) {
             return Evaluation::NoWinner;
         } else {
-
+            
         }
     }
 }
@@ -54,11 +54,15 @@ void TicTacToe::count(const string &str) {
 
 char** TicTacToe::setUpBoard(const string &str){
 
-    char** board = new char* [ROW];
-    for(int row = 0; row < ROW; row++){
-        board[row] = new char [COL];
-        for(int col = 0; col < COL; col++){
-            board[row][col]  = str[COL*row + col];
+    char** board = new char* [SIZE];
+    for(int row = 0; row < SIZE; row++){
+        board[row] = new char [SIZE];
+        for(int col = 0; col < SIZE; col++){
+            char character = str[SIZE*row + col];
+            if(!isXorO(character)){
+                character = '.';
+            }
+            board[row][col] = character;
         }
     }
     return board;
@@ -74,10 +78,10 @@ bool TicTacToe::hasBalanceTurn(int XCount, int OCount) {
 
 char* TicTacToe::checkRow(char** board){
 
-    char state[ROW];
-    for(int row = 0; row < ROW; row++){
+    char state[SIZE];
+    for(int row = 0; row < SIZE; row++){
         bool equal = true;
-        for(int col = 0; col < COL-1; col++){
+        for(int col = 0; col < SIZE-1; col++){
             if(board[row][col] != board[row][col+1]){
                 equal = false;
                 break;
@@ -93,10 +97,10 @@ char* TicTacToe::checkRow(char** board){
 
 char* TicTacToe::checkCol(char** board){
 
-    char state[COL];
-    for(int col = 0; col < COL; col++){
+    char state[SIZE];
+    for(int col = 0; col < SIZE; col++){
         bool equal = true;
-        for(int row = 0; row < ROW-1; row++){
+        for(int row = 0; row < SIZE-1; row++){
             if(board[row][col] != board[row+1][col]){
                 equal = false;
                 break;
@@ -114,7 +118,7 @@ char* TicTacToe::checkDiagonal(char** board){
 
     char state[DIAGONAL];
     bool equal = true;
-    for(int row = 0; row < ROW-1; row++){
+    for(int row = 0; row < SIZE-1; row++){
         int col = row;
         if(board[row][col] != board[row+1][col+1]){
             equal = false;
@@ -126,7 +130,7 @@ char* TicTacToe::checkDiagonal(char** board){
         winCount++;
     }
     equal = true;
-    for(int row = 0; row < ROW-1; row++){
+    for(int row = 0; row < SIZE-1; row++){
         int col = LAST - row;
         if(board[row][col] != board[row+1][col-1]){
             equal = false;
@@ -140,12 +144,31 @@ char* TicTacToe::checkDiagonal(char** board){
     return state;
 }
 
-bool TicTacToe::hadWinner(char** board) {
-
+bool TicTacToe::hadWinner() {
+    return winCount > 1 && !hasValidTwoLine();
 }
 
-bool TicTacToe::hasValidTwoLine(char** board) {
+bool TicTacToe::hasValidTwoLine() {
 
+    return (isXorO(rowState[FIRST]) && (rowState[FIRST] == colState[FIRST] || rowState[FIRST] == colState[LAST]))
+           || (isXorO(rowState[LAST]) && (rowState[LAST] == colState[FIRST] || rowState[LAST] == colState[LAST]))
+           || (isXorO(diagonalState[FORWARD]) && (diagonalState[FORWARD] == diagonalState[BACKWARD]));
+}
+
+bool TicTacToe::isXorO(char character){
+    return character == 'x' || character == 'o';
+}
+
+bool TicTacToe::isEmptyBoard(char** board) {
+
+    for(int row = 0; row < SIZE; row++){
+        for(int col = 0; col < SIZE; col++){
+            if(isXorO(board[row][col])){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 int TicTacToe::getXCount() {
