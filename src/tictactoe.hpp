@@ -1,6 +1,7 @@
 #pragma once
-
 #include <string>
+
+using namespace std;
 
 enum class Evaluation {
     InvalidInput,
@@ -10,7 +11,22 @@ enum class Evaluation {
     UnreachableState
 };
 
-Evaluation EvaluateBoard(const std::string &board_state);
+class TicTacToe {
+
+private:
+    char winner;
+    int winCount,
+        XCount,
+        OCount;
+
+public:
+    TicTacToe();
+    ~TicTacToe();
+    Evaluation EvaluateBoard(const string &board_state);
+
+};
+
+
 
 // Put other methods, enums, classes, etc. declarations here
 

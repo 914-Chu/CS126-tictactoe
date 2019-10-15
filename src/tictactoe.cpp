@@ -1,7 +1,12 @@
 #include "tictactoe.hpp"
 
-Evaluation EvaluateBoard(const std::string &board_state) {
-    return Evaluation::Xwins;
-}
+using namespace std;
 
-// Put other method definitions here
+TicTacToe::TicTacToe() {}
+
+TicTacToe::~TicTacToe() {}
+
+Evaluation TicTacToe::EvaluateBoard(const string &board_state) {
+
+
+}

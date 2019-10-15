@@ -6,88 +6,177 @@
 // See: https://github.com/catchorg/Catch2/blob/master/docs/tutorial.md
 // For documentation on how to write tests with Catch2
 
+TicTacToe ticTacToe;
+
+
+/**
+ * O _ _
+ * _ X _
+ * X _ _ _
+ */
 TEST_CASE("outOfBoundary"){
-    REQUIRE(EvaluateBoard("O...X.X...") == Evaluation::InvalidInput);
+    REQUIRE(ticTacToe.EvaluateBoard("O...X.X...") == Evaluation::InvalidInput);
 }
 
+/**
+ * O O _
+ * _ _ X
+ *
+ */
 TEST_CASE("missingEntry"){
-    REQUIRE(EvaluateBoard("OO...X") == Evaluation::InvalidInput);
+    REQUIRE(ticTacToe.EvaluateBoard("OO...X") == Evaluation::InvalidInput);
 }
 
 TEST_CASE("noEntry"){
-    REQUIRE(EvaluateBoard("") == Evaluation::InvalidInput);
+    REQUIRE(ticTacToe.EvaluateBoard("") == Evaluation::InvalidInput);
 }
 
 TEST_CASE("null"){
-    REQUIRE(EvaluateBoard(nullptr) == Evaluation::InvalidInput);
+    REQUIRE(ticTacToe.EvaluateBoard(nullptr) == Evaluation::InvalidInput);
 }
 
+/**
+ * X X X
+ * X X X
+ * X X X
+ */
 TEST_CASE("allX"){
-    REQUIRE(EvaluateBoard("XXXXXXXXX") == Evaluation::UnreachableState);
+    REQUIRE(ticTacToe.EvaluateBoard("XXXXXXXXX") == Evaluation::UnreachableState);
 }
 
+/**
+ * O O O
+ * O O O
+ * X X _
+ */
 TEST_CASE("unequalTurns"){
-    REQUIRE(EvaluateBoard("OOOOOOXX.") == Evaluation::UnreachableState);
+    REQUIRE(ticTacToe.EvaluateBoard("OOOOOOXX.") == Evaluation::UnreachableState);
 }
 
+/**
+ * O O O
+ * X X X
+ * _ _ _
+ */
 TEST_CASE("duplicateRowWinner"){
-    REQUIRE(EvaluateBoard("OOOXXX...") == Evaluation::UnreachableState);
+    REQUIRE(ticTacToe.EvaluateBoard("OOOXXX...") == Evaluation::UnreachableState);
 }
 
+/**
+ * O X _
+ * O X _
+ * O X _
+ */
 TEST_CASE("duplicateColWinner"){
-    REQUIRE(EvaluateBoard("OX.OX.OX.") == Evaluation::UnreachableState);
+    REQUIRE(ticTacToe.EvaluateBoard("OX.OX.OX.") == Evaluation::UnreachableState);
 }
 
-TEST_CASE("duplicateDiagonalWinner"){
-    REQUIRE(EvaluateBoard("XOXOXOXOX") == Evaluation::UnreachableState);
-}
-
-TEST_CASE("duplicateCrossWinner"){
-    REQUIRE(EvaluateBoard("XOXOOOXOX") == Evaluation::UnreachableState);
-}
-
+/**
+ * O _ _
+ * _ X _
+ * X _ _
+ */
 TEST_CASE("simpleNoWinnerBoard"){
-    REQUIRE(EvaluateBoard("O...X.X..") == Evaluation::NoWinner);
+    REQUIRE(ticTacToe.EvaluateBoard("O...X.X..") == Evaluation::NoWinner);
 }
 
+/**
+ * _ _ _
+ * _ _ _
+ * _ _ _
+ */
 TEST_CASE("emptyBoardWithOtherSymbols"){
-    REQUIRE(EvaluateBoard("n2siEl!d-") == Evaluation::NoWinner);
+    REQUIRE(ticTacToe.EvaluateBoard("n2siEl!d-") == Evaluation::NoWinner);
 }
 
+/**
+ * _ _ _
+ * _ _ _
+ * _ _ _
+ */
 TEST_CASE("noWinnerCaseInsensitive"){
-    REQUIRE(EvaluateBoard("O9.i.Xx.o") == Evaluation::NoWinner);
+    REQUIRE(ticTacToe.EvaluateBoard("O9.i.Xx.o") == Evaluation::NoWinner);
 }
 
+/**
+ * O X O
+ * X X O
+ * X O X
+ */
 TEST_CASE("noWinnerFullBoard"){
-    REQUIRE(EvaluateBoard("OXOXXOXOX") == Evaluation::NoWinner);
+    REQUIRE(ticTacToe.EvaluateBoard("OXOXXOXOX") == Evaluation::NoWinner);
 }
 
+/**
+ * X O _
+ * X X O
+ * X O _
+ */
 TEST_CASE("XWinsCol"){
-    REQUIRE(EvaluateBoard("XO.XXOXO.") == Evaluation::Xwins);
+    REQUIRE(ticTacToe.EvaluateBoard("XO.XXOXO.") == Evaluation::Xwins);
 }
 
-TEST_CASE("XWinsDiaLeft"){
-    REQUIRE(EvaluateBoard("XO..XO.OX") == Evaluation::Xwins);
+/**
+ * X O _
+ * _ X O
+ * _ O X
+ */
+TEST_CASE("XWinsLeftDiagonal"){
+    REQUIRE(ticTacToe.EvaluateBoard("XO..XO.OX") == Evaluation::Xwins);
 }
 
+/**
+ * X O O
+ * X O O
+ * X X X
+ */
 //EdgeCase
 TEST_CASE("lastEntryAtCorner") {
-    REQUIRE(EvaluateBoard("XOOXOOXXX") == Evaluation::Xwins);
+    REQUIRE(ticTacToe.EvaluateBoard("XOOXOOXXX") == Evaluation::Xwins);
 }
 
-TEST_CASE("OWinsRow"){
-    REQUIRE(EvaluateBoard("X..OOOX..") == Evaluation::Owins);
-}
-
-TEST_CASE("OWinsDiaRight"){
-    REQUIRE(EvaluateBoard(".XOXO.O..") == Evaluation::Owins);
-}
-
-TEST_CASE("OWinsCaseInsensitive"){
-    REQUIRE(EvaluateBoard(".xOXo.O..") == Evaluation::Owins);
-}
-
-//EdgeCase
+/**
+ * X O X
+ * O X O
+ * X O X
+ */
+ //EdgeCase
 TEST_CASE("lastEntryAtMiddle"){
-    REQUIRE(EvaluateBoard("OXOXOXOXO") == Evaluation::Owins);
+    REQUIRE(ticTacToe.EvaluateBoard("XOXOXOXOX") == Evaluation::Xwins);
+}
+
+/**
+ * X _ _
+ * O O O
+ * X _ _
+ */
+TEST_CASE("OWinsRow"){
+    REQUIRE(ticTacToe.EvaluateBoard("X..OOOX..") == Evaluation::Owins);
+}
+
+/**
+ * _ X O
+ * X O _
+ * O _ _
+ */
+TEST_CASE("OWinsRightDiagonal"){
+    REQUIRE(ticTacToe.EvaluateBoard(".XOXO.O..") == Evaluation::Owins);
+}
+
+/**
+ * _ _ _
+ * _ _ _
+ * _ _ _
+ */
+TEST_CASE("OWinsCaseInsensitive"){
+    REQUIRE(ticTacToe.EvaluateBoard(".xOXo.O..") == Evaluation::Owins);
+}
+
+/**
+ * X O X
+ * O O O
+ * X O X
+ */
+TEST_CASE("lastEntryAtMiddle"){
+    REQUIRE(ticTacToe.EvaluateBoard("XOXOOOXOX") == Evaluation::Owins);
 }
