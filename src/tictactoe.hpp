@@ -15,15 +15,14 @@ enum class Evaluation {
 class TicTacToe {
 
 private:
-    const unsigned int kBOARD_CAPACITY = 9;
-    const unsigned int kSIDE_LENGTH = 3;
-    const unsigned int kDIAGONAL_AMOUNT = 2;
-    const unsigned int kFORWARD = 0;
-    const unsigned int kBACKWARD = 1;
-    const unsigned int kFIRST = 0;
-    const unsigned int kLAST = kSIDE_LENGTH - 1;
-    int winCount;
-    char winner;
+    const unsigned int kBoardCapacity = 9;
+    const unsigned int kSideLength = 3;
+    const unsigned int kForward = 0;
+    const unsigned int kBackward = 1;
+    const unsigned int kFirst = 0;
+    const unsigned int kLast = kSideLength - 1;
+    int win_count_;
+    char winner_;
 
 public:
     TicTacToe() {};
