@@ -21,9 +21,9 @@ Evaluation TicTacToe::EvaluateBoard(const string &board_state) {
     } else {
         win_count_ = 0;
         vector<vector<char>>board = SetUpBoard(boardState);
-        vector<char> rowState = CheckRow(board);
-        vector<char> colState = CheckCol(board);
-        vector<char> diagonalState = CheckDiagonal(board);
+        vector<char> rowState = CheckRow(board); //if each row has a winner: row0, row1, row2 (in 3*3 board)
+        vector<char> colState = CheckCol(board); //if each col has a winner: col0, col1, col2 (in 3*3 board)
+        vector<char> diagonalState = CheckDiagonal(board); //if each diagonal has a winner: backward, forward
 
         if ((win_count_ > 1 && HasInvalidTwoLine(rowState, colState, diagonalState)) || !HasBalanceTurn(boardState)) {
             return Evaluation::UnreachableState;
