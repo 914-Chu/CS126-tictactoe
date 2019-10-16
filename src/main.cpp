@@ -192,6 +192,31 @@ TEST_CASE("lastEntryAtCorner2") {
  * X O X
  */
  //EdgeCase
-TEST_CASE("lastEntryAtMiddle2"){
+TEST_CASE("method Trim"){
+    string untrim = "  alkelc lilds    ";
+    string trim = "alkelc lilds";
+    REQUIRE(ticTacToe.Trim(untrim).compare(trim) == 0);
+}
+
+TEST_CASE("method HasBalanceTurn"){
+    REQUIRE(ticTacToe.HasBalanceTurn("xoxxo...."));
+    REQUIRE(!ticTacToe.HasBalanceTurn("xoooooxoo"));
+}
+
+TEST_CASE("method HasInvalidTwoLine"){
+    vector<char> rowState{'o', '\0','\0'};
+
+    REQUIRE(ticTacToe.HasInvalidTwoLine("XOXOOOXOX") == Evaluation::Owins);
+}
+
+TEST_CASE("method HasWinner"){
+    REQUIRE(ticTacToe.EvaluateBoard("XOXOOOXOX") == Evaluation::Owins);
+}
+
+TEST_CASE("method IsXorO"){
+    REQUIRE(ticTacToe.EvaluateBoard("XOXOOOXOX") == Evaluation::Owins);
+}
+
+TEST_CASE("method IsEmptyBoard"){
     REQUIRE(ticTacToe.EvaluateBoard("XOXOOOXOX") == Evaluation::Owins);
 }
