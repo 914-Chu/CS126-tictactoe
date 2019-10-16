@@ -7,8 +7,7 @@
 // For documentation on how to write tests with Catch2
 
 TicTacToe ticTacToe;
-
-
+//using namespace tictactoe;
 /**
  * O _ _
  * _ X _
@@ -29,10 +28,6 @@ TEST_CASE("missingEntry"){
 
 TEST_CASE("noEntry"){
     REQUIRE(ticTacToe.EvaluateBoard("") == Evaluation::InvalidInput);
-}
-
-TEST_CASE("null"){
-    REQUIRE(ticTacToe.EvaluateBoard(nullptr) == Evaluation::InvalidInput);
 }
 
 /**
@@ -78,6 +73,15 @@ TEST_CASE("duplicateColWinner"){
  */
 TEST_CASE("simpleNoWinnerBoard"){
     REQUIRE(ticTacToe.EvaluateBoard("O...X.X..") == Evaluation::NoWinner);
+}
+
+/**
+ * O _ _
+ * _ X _
+ * X _ _
+ */
+TEST_CASE("simpleNoWinnerBoardWithExtraSpace"){
+    REQUIRE(ticTacToe.EvaluateBoard("O...X.X..    ") == Evaluation::NoWinner);
 }
 
 /**
@@ -131,7 +135,7 @@ TEST_CASE("XWinsLeftDiagonal"){
  * X X X
  */
 //EdgeCase
-TEST_CASE("lastEntryAtCorner") {
+TEST_CASE("lastEntryAtCorner1") {
     REQUIRE(ticTacToe.EvaluateBoard("XOOXOOXXX") == Evaluation::Xwins);
 }
 
@@ -141,7 +145,7 @@ TEST_CASE("lastEntryAtCorner") {
  * X O X
  */
  //EdgeCase
-TEST_CASE("lastEntryAtMiddle"){
+TEST_CASE("lastEntryAtMiddle1"){
     REQUIRE(ticTacToe.EvaluateBoard("XOXOXOXOX") == Evaluation::Xwins);
 }
 
@@ -173,10 +177,21 @@ TEST_CASE("OWinsCaseInsensitive"){
 }
 
 /**
+ * O X O
+ * O O X
+ * O X X
+ */
+//EdgeCase
+TEST_CASE("lastEntryAtCorner2") {
+    REQUIRE(ticTacToe.EvaluateBoard("OXOOOXOXX") == Evaluation::Owins);
+}
+
+/**
  * X O X
  * O O O
  * X O X
  */
-TEST_CASE("lastEntryAtMiddle"){
+ //EdgeCase
+TEST_CASE("lastEntryAtMiddle2"){
     REQUIRE(ticTacToe.EvaluateBoard("XOXOOOXOX") == Evaluation::Owins);
 }

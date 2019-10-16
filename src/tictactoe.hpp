@@ -14,39 +14,30 @@ enum class Evaluation {
 class TicTacToe {
 
 private:
+    const int kBOARD_CAPACITY = 9;
+    const int kSIDE_LENGTH = 3;
+    const int kDIAGONAL_AMOUNT = 2;
+    const int kFORWARD = 0;
+    const int kBACKWARD = 1;
+    const int kFIRST = 0;
+    const int kLAST = kSIDE_LENGTH - 1;
+    int winCount;
     char winner;
-    const int BOARD_CAPACITY = 9;
-    const int SIZE = 3;
-    const int DIAGONAL = 2;
-    const int FORWARD = 0;
-    const int BACKWARD = 1;
-    const int FIRST = 0;
-    const int LAST = SIZE - 1;
-    int winCount,
-        XCount,
-        OCount;
-    char* rowState;
-    char* colState;
-    char* diagonalState;
 
 public:
-    TicTacToe(): winCount(0), XCount(0), OCount(0) {};
+    TicTacToe() {};
     ~TicTacToe() {};
     Evaluation EvaluateBoard(const string&);
-    string trim(const string&);
-    void count(const string&);
-    char* checkRow(char**);
-    char* checkCol(char**);
-    char* checkDiagonal(char**);
-    char** setUpBoard(const string&);
-    bool isXorO(char);
-    bool isFull(int, int);
-    bool isEmptyBoard(char**);
-    bool hasBalanceTurn(int, int);
-    bool hasValidTwoLine();
-    bool hadWinner();
-    int getXCount();
-    int getOCount();
+    string Trim(const string&);
+    char* CheckRow(char**);
+    char* CheckCol(char**);
+    char* CheckDiagonal(char**);
+    char** SetUpBoard(const string&);
+    bool IsXorO(char);
+    bool IsEmptyBoard(char**);
+    bool HasBalanceTurn(const string&);
+    bool HasInvalidTwoLine(char*, char*, char*);
+    bool HasWinner(char*);
 };
 
 
