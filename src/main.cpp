@@ -80,8 +80,8 @@ TEST_CASE("simpleNoWinnerBoard"){
  * _ X _
  * X _ _
  */
-TEST_CASE("simpleNoWinnerBoardWithExtraSpace"){
-    REQUIRE(ticTacToe.EvaluateBoard("O...X.X..    ") == Evaluation::NoWinner);
+TEST_CASE("simpleNoWinnerBoardWithExtraSpaces"){
+    REQUIRE(ticTacToe.EvaluateBoard("  O...X.X..    ") == Evaluation::NoWinner);
 }
 
 /**

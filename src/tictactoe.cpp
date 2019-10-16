@@ -61,7 +61,6 @@ vector<vector<char>> TicTacToe::SetUpBoard(const string &str){
             }
         }
     }
-
     return board;
 }
 
