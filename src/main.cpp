@@ -7,7 +7,7 @@
 // For documentation on how to write tests with Catch2
 
 TicTacToe ticTacToe;
-//using namespace tictactoe;
+
 /**
  * O _ _
  * _ X _

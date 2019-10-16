@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -14,13 +15,13 @@ enum class Evaluation {
 class TicTacToe {
 
 private:
-    const int kBOARD_CAPACITY = 9;
-    const int kSIDE_LENGTH = 3;
-    const int kDIAGONAL_AMOUNT = 2;
-    const int kFORWARD = 0;
-    const int kBACKWARD = 1;
-    const int kFIRST = 0;
-    const int kLAST = kSIDE_LENGTH - 1;
+    const unsigned int kBOARD_CAPACITY = 9;
+    const unsigned int kSIDE_LENGTH = 3;
+    const unsigned int kDIAGONAL_AMOUNT = 2;
+    const unsigned int kFORWARD = 0;
+    const unsigned int kBACKWARD = 1;
+    const unsigned int kFIRST = 0;
+    const unsigned int kLAST = kSIDE_LENGTH - 1;
     int winCount;
     char winner;
 
@@ -29,18 +30,13 @@ public:
     ~TicTacToe() {};
     Evaluation EvaluateBoard(const string&);
     string Trim(const string&);
-    char* CheckRow(char**);
-    char* CheckCol(char**);
-    char* CheckDiagonal(char**);
-    char** SetUpBoard(const string&);
+    vector<char> CheckRow(vector<vector<char>>);
+    vector<char> CheckCol(vector<vector<char>>);
+    vector<char> CheckDiagonal(vector<vector<char>>);
+    vector<vector<char>> SetUpBoard(const string&);
     bool IsXorO(char);
-    bool IsEmptyBoard(char**);
+    bool IsEmptyBoard(vector<vector<char>>);
     bool HasBalanceTurn(const string&);
-    bool HasInvalidTwoLine(char*, char*, char*);
-    bool HasWinner(char*);
+    bool HasInvalidTwoLine(vector<char>,vector<char>,vector<char>);
+    bool HasWinner(vector<char>);
 };
-
-
-
-// Put other methods, enums, classes, etc. declarations here
-

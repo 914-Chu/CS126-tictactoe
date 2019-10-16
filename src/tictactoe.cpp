@@ -14,14 +14,13 @@ Evaluation TicTacToe::EvaluateBoard(const string &board_state) {
     if (boardState.empty() || boardState.length() != static_cast<unsigned int>(kBOARD_CAPACITY)) {
         return Evaluation::InvalidInput;
     } else {
-        char** board = SetUpBoard(boardState);
-        vector<vector<char>>boards = SetUpBoard(boardState);
+        vector<vector<char>>board = SetUpBoard(boardState);
         winCount = 0;
-        char *rowState = CheckRow(board);
-        char *colState = CheckCol(board);
-        char *diagonalState = CheckDiagonal(board);
+        vector<char> rowState = CheckRow(board);
+        vector<char> colState = CheckCol(board);
+        vector<char> diagonalState = CheckDiagonal(board);
 
-        if ((winCount > 1 && HasInvalidTwoLine(rowState,colState, diagonalState)) || !HasBalanceTurn(boardState)) {
+        if ((winCount > 1 && HasInvalidTwoLine(rowState, colState, diagonalState)) || !HasBalanceTurn(boardState)) {
             return Evaluation::UnreachableState;
         }else if (IsEmptyBoard(board) || winCount == 0) {
             return Evaluation::NoWinner;
@@ -44,11 +43,11 @@ string TicTacToe::Trim(const string &str) {
     return unTrim;
 }
 
-char** TicTacToe::SetUpBoard(const string &str){
+vector<vector<char>> TicTacToe::SetUpBoard(const string &str){
 
     vector<vector<char>> board( kSIDE_LENGTH , vector<char> (kSIDE_LENGTH, '.'));
-    for(int row = 0; row < kSIDE_LENGTH; row++){
-        for(int col = 0; col < kSIDE_LENGTH; col++){
+    for(unsigned int row = 0; row < kSIDE_LENGTH; row++){
+        for(unsigned int col = 0; col < kSIDE_LENGTH; col++){
             char character = str[static_cast<unsigned int>(kSIDE_LENGTH * row + col)];
             if(IsXorO(character)){
                 board[row][col] = character;
@@ -56,17 +55,6 @@ char** TicTacToe::SetUpBoard(const string &str){
         }
     }
 
-    char** board = new char* [kSIDE_LENGTH];
-    for(int row = 0; row < kSIDE_LENGTH; row++){
-        board[row] = new char [kSIDE_LENGTH];
-        for(int col = 0; col < kSIDE_LENGTH; col++){
-            char character = str[static_cast<unsigned int>(kSIDE_LENGTH * row + col)];
-            if(!IsXorO(character)){
-                character = '.';
-            }
-            board[row][col] = character;
-        }
-    }
     return board;
 }
 
@@ -85,13 +73,13 @@ bool TicTacToe::HasBalanceTurn(const string &str) {
     return abs(XCount - OCount) < 2;
 }
 
-char* TicTacToe::CheckRow(char** board){
+vector<char> TicTacToe::CheckRow(vector<vector<char>>board){
 
-    char* state = new char[kSIDE_LENGTH];
-    for(int row = 0; row < kSIDE_LENGTH; row++){
+    vector<char> state(kSIDE_LENGTH);
+    for(unsigned int row = 0; row < kSIDE_LENGTH; row++){
         bool equal = true;
         if(IsXorO(board[row][kFIRST])) {
-            for (int col = 0; col < kSIDE_LENGTH - 1; col++) {
+            for (unsigned int col = 0; col < kSIDE_LENGTH - 1; col++) {
                 if (board[row][col] != board[row][col + 1]) {
                     equal = false;
                     break;
@@ -107,13 +95,13 @@ char* TicTacToe::CheckRow(char** board){
     return state;
 }
 
-char* TicTacToe::CheckCol(char** board){
+vector<char> TicTacToe::CheckCol(vector<vector<char>> board){
 
-    char* state = new char[kSIDE_LENGTH];
-    for(int col = 0; col < kSIDE_LENGTH; col++){
+    vector<char> state(kSIDE_LENGTH);
+    for(unsigned int col = 0; col < kSIDE_LENGTH; col++){
         bool equal = true;
         if(IsXorO(board[kFIRST][col])) {
-            for (int row = 0; row < kSIDE_LENGTH - 1; row++) {
+            for (unsigned int row = 0; row < kSIDE_LENGTH - 1; row++) {
                 if (board[row][col] != board[row + 1][col]) {
                     equal = false;
                     break;
@@ -129,13 +117,13 @@ char* TicTacToe::CheckCol(char** board){
     return state;
 }
 
-char* TicTacToe::CheckDiagonal(char** board){
+vector<char> TicTacToe::CheckDiagonal(vector<vector<char>> board){
 
-    char* state = new char[kDIAGONAL_AMOUNT];
+    vector<char> state(kSIDE_LENGTH);
     bool equal = true;
     if(IsXorO(board[kFIRST][kFIRST])) {
-        for (int row = 0; row < kSIDE_LENGTH - 1; row++) {
-            int col = row;
+        for (unsigned int row = 0; row < kSIDE_LENGTH - 1; row++) {
+            unsigned int col = row;
             if (board[row][col] != board[row + 1][col + 1]) {
                 equal = false;
                 break;
@@ -150,8 +138,8 @@ char* TicTacToe::CheckDiagonal(char** board){
 
     equal = true;
     if(IsXorO(board[kFIRST][kLAST])) {
-        for (int row = 0; row < kSIDE_LENGTH - 1; row++) {
-            int col = kLAST - row;
+        for (unsigned int row = 0; row < kSIDE_LENGTH - 1; row++) {
+            unsigned int col = kLAST - row;
             if (board[row][col] != board[row + 1][col - 1]) {
                 equal = false;
                 break;
@@ -166,16 +154,15 @@ char* TicTacToe::CheckDiagonal(char** board){
     return state;
 }
 
-bool TicTacToe::HasInvalidTwoLine(char* rowState, char* colState, char* diagonalState) {
+bool TicTacToe::HasInvalidTwoLine(vector<char> rowState, vector<char> colState, vector<char> diagonalState) {
 
     return (HasWinner(rowState) != HasWinner(colState)) && !HasWinner(diagonalState);
 }
 
-bool TicTacToe::HasWinner(char* state) {
+bool TicTacToe::HasWinner(vector<char> state) {
 
-    int size = sizeof(state)/sizeof(*state);
-    for(int i = 0; i< size; i++){
-        if(IsXorO(state[i])){
+    for(char character : state){
+        if(IsXorO(character)){
             return true;
         }
     }
@@ -186,10 +173,10 @@ bool TicTacToe::IsXorO(char character){
     return character == 'x' || character == 'o';
 }
 
-bool TicTacToe::IsEmptyBoard(char** board) {
+bool TicTacToe::IsEmptyBoard(vector<vector<char>> board) {
 
-    for(int row = 0; row < kSIDE_LENGTH; row++){
-        for(int col = 0; col < kSIDE_LENGTH; col++){
+    for(unsigned int row = 0; row < kSIDE_LENGTH; row++){
+        for(unsigned int col = 0; col < kSIDE_LENGTH; col++){
             if(IsXorO(board[row][col])){
                 return false;
             }
